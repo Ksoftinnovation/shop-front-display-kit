@@ -3,9 +3,43 @@ import React, { useState } from 'react';
 import { Search, ShoppingCart, User, Menu, ChevronDown } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { 
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from '@/components/ui/navigation-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Custom navigation link component for consistent styling
+  const NavLink = React.forwardRef<
+    React.ElementRef<"a">,
+    React.ComponentPropsWithoutRef<"a">
+  >(({ className, children, ...props }, ref) => (
+    <a
+      ref={ref}
+      className={cn(
+        "block py-2 px-3 text-sm font-medium transition-colors hover:text-shop-red",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </a>
+  ));
+  NavLink.displayName = "NavLink";
 
   return (
     <header className="w-full">
@@ -97,26 +131,58 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* Navigation - replaced with shadcn components */}
       <nav className="border-b">
         <div className="container mx-auto px-4">
-          <div className={`${isMenuOpen ? 'block' : 'hidden'} md:block`}>
-            <ul className="flex flex-col md:flex-row md:justify-start md:items-center overflow-x-auto py-1">
-              <li>
-                <a href="#" className="nav-link flex items-center font-medium">
-                  Categories <ChevronDown className="ml-1 h-4 w-4" />
-                </a>
-              </li>
-              <li><a href="#" className="nav-link">New In</a></li>
-              <li><a href="#" className="nav-link">Sale</a></li>
-              <li><a href="#" className="nav-link">Women</a></li>
-              <li><a href="#" className="nav-link">Men</a></li>
-              <li><a href="#" className="nav-link">Kids</a></li>
-              <li><a href="#" className="nav-link">Shoes</a></li>
-              <li><a href="#" className="nav-link">Accessories</a></li>
-              <li><a href="#" className="nav-link">Beauty</a></li>
-              <li><a href="#" className="nav-link">Home</a></li>
-            </ul>
+          {/* Mobile menu toggle */}
+          <div className="md:hidden">
+            <Button variant="ghost" onClick={() => setIsMenuOpen(!isMenuOpen)} className="w-full justify-start py-2">
+              {isMenuOpen ? "Close Menu" : "Menu"} <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${isMenuOpen ? 'rotate-180' : ''}`} />
+            </Button>
+          </div>
+          
+          {/* Desktop and Mobile Navigation */}
+          <div className={`${isMenuOpen ? 'block' : 'hidden'} md:block py-1`}>
+            <NavigationMenu className="max-w-full w-full justify-start">
+              <NavigationMenuList className="flex-wrap justify-start">
+                {/* Categories Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-transparent hover:bg-transparent hover:text-shop-red data-[state=open]:bg-transparent data-[state=open]:text-shop-red">
+                    Categories
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="z-50 bg-white">
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                      {["Women Clothing", "Men Clothing", "Kids", "Shoes", "Accessories"].map((category) => (
+                        <li key={category}>
+                          <NavigationMenuLink asChild>
+                            <a
+                              href="#"
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-white to-gray-50 p-3 hover:from-gray-50 hover:to-gray-100 hover:text-shop-red"
+                            >
+                              <div className="mb-2 text-sm font-medium">
+                                {category}
+                              </div>
+                              <p className="text-xs leading-tight text-gray-500">
+                                Explore our collection of {category.toLowerCase()}
+                              </p>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* Regular navigation items with hover effect */}
+                {["New In", "Sale", "Women", "Men", "Kids", "Shoes", "Accessories", "Beauty", "Home"].map((item) => (
+                  <NavigationMenuItem key={item}>
+                    <NavigationMenuLink asChild>
+                      <NavLink href="#">{item}</NavLink>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
         </div>
       </nav>

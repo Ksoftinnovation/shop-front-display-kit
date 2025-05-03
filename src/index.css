@@ -109,7 +109,7 @@
   }
   
   .nav-link {
-    @apply text-shop-black hover:text-shop-red transition-colors duration-200 py-2 px-3 text-sm font-medium;
+    @apply text-shop-black hover:text-shop-red transition-colors duration-300;
   }
   
   .category-item {
@@ -122,5 +122,18 @@
   
   .category-title {
     @apply text-base font-medium text-center;
+  }
+
+  /* Custom navigation menu styles */
+  .NavigationMenuLink {
+    @apply transition-colors duration-300;
+  }
+
+  .NavigationMenuTrigger:hover {
+    @apply text-shop-purple;
+  }
+
+  .NavigationMenuContent {
+    @apply shadow-lg rounded-md border-none;
   }
 }
