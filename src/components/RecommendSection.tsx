@@ -10,6 +10,7 @@ import {
 import { Card, CardContent, CardFooter } from './ui/card';
 import { Button } from './ui/button';
 import { ShoppingCart } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 // Product type definition
 interface Product {
@@ -55,6 +56,18 @@ const products: Product[] = [
 ];
 
 const RecommendSection: React.FC = () => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (product: Product) => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      discountPercentage: product.discountPercentage
+    });
+  };
+
   return (
     <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
@@ -100,6 +113,7 @@ const RecommendSection: React.FC = () => {
                         size="icon" 
                         className="rounded-full h-8 w-8"
                         aria-label="Add to cart"
+                        onClick={() => handleAddToCart(product)}
                       >
                         <ShoppingCart className="h-4 w-4" />
                       </Button>
