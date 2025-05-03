@@ -8,12 +8,12 @@ import {
   Instagram, 
   Twitter, 
   Youtube, 
-  Pinterest, 
-  Snapchat, 
-  Tiktok, 
+  Share2, 
+  Camera, 
+  Video, 
   Linkedin,
   Apple,
-  Android
+  Smartphone
 } from 'lucide-react';
 
 const Footer = () => {
@@ -75,13 +75,13 @@ const Footer = () => {
                 <Youtube size={20} />
               </a>
               <a href="#" className="text-shop-black hover:text-shop-purple transition-colors">
-                <Pinterest size={20} />
+                <Share2 size={20} />
               </a>
               <a href="#" className="text-shop-black hover:text-shop-purple transition-colors">
-                <Snapchat size={20} />
+                <Camera size={20} />
               </a>
               <a href="#" className="text-shop-black hover:text-shop-purple transition-colors">
-                <Tiktok size={20} />
+                <Video size={20} />
               </a>
               <a href="#" className="text-shop-black hover:text-shop-purple transition-colors">
                 <Linkedin size={20} />
@@ -97,7 +97,7 @@ const Footer = () => {
                 <Apple size={20} />
               </a>
               <a href="#" className="text-shop-black hover:text-shop-purple transition-colors">
-                <Android size={20} />
+                <Smartphone size={20} />
               </a>
             </div>
           </div>
