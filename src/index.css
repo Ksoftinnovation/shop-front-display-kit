@@ -130,7 +130,7 @@
   }
 
   .NavigationMenuTrigger:hover {
-    @apply text-shop-purple;
+    @apply text-shop-red;
   }
 
   .NavigationMenuContent {
