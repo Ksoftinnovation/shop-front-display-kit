@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag } from 'lucide-react';
@@ -10,7 +11,6 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { cn } from "@/lib/utils"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -24,13 +24,13 @@ import {
 } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
-import { Cart } from "@/components/Cart"
+import CartSheet from "@/components/CartSheet"
 import { useCart } from "@/context/CartContext";
 
 const Header = () => {
   const isMobile = useIsMobile()
-  const { items } = useCart();
-  const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
+  const { cart } = useCart();
+  const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -120,7 +120,7 @@ const Header = () => {
           </Avatar>
         </div>
       </div>
-      <Cart />
+      <CartSheet />
     </header>
   );
 };

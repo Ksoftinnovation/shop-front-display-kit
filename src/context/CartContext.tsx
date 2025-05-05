@@ -23,6 +23,7 @@ interface CartContextType {
   setIsCartOpen: (isOpen: boolean) => void;
   totalItems: number;
   totalPrice: number;
+  items: CartProduct[]; // Add this line to make items accessible as an alias for cart
 }
 
 // Create context with default values
@@ -110,6 +111,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   return (
     <CartContext.Provider value={{ 
       cart, 
+      items: cart, // Add this line to make items accessible as an alias for cart
       addToCart, 
       removeFromCart, 
       updateQuantity, 
