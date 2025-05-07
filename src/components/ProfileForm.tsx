@@ -1,19 +1,63 @@
 
-import React from 'react';
-import { User, Mail, Phone, Building, MapPin, CreditCard } from "lucide-react";
-
+import React, { useState, useEffect } from 'react';
+import { User, Mail, Phone, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { ProfileData } from './ProfileTable';
+import { Input } from "@/components/ui/input";
 
-const ProfileForm: React.FC = () => {
+interface ProfileFormProps {
+  onSubmit: (data: Omit<ProfileData, 'id' | 'dateAdded'>) => void;
+  initialData?: ProfileData;
+  isEditing?: boolean;
+  onCancelEdit?: () => void;
+}
+
+const ProfileForm: React.FC<ProfileFormProps> = ({ 
+  onSubmit, 
+  initialData, 
+  isEditing = false, 
+  onCancelEdit 
+}) => {
   const { toast } = useToast();
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    if (initialData) {
+      setFullName(initialData.fullName);
+      setEmail(initialData.email);
+      setPhoneNumber(initialData.phoneNumber);
+      setAddress(initialData.address);
+    }
+  }, [initialData]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    onSubmit({
+      fullName,
+      email,
+      phoneNumber,
+      address,
+    });
+
+    if (!isEditing) {
+      // Reset form after submission if not editing
+      setFullName('');
+      setEmail('');
+      setPhoneNumber('');
+      setAddress('');
+    }
+
     toast({
-      title: "Profile information submitted",
-      description: "Your information has been saved successfully.",
+      title: isEditing ? "Profile updated" : "Profile information submitted",
+      description: isEditing 
+        ? "Your profile has been updated successfully." 
+        : "Your information has been saved successfully.",
     });
   };
 
@@ -29,38 +73,16 @@ const ProfileForm: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Full Name
-                </label>
-                <input 
-                  type="text" 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md" 
-                  placeholder="Enter your full name"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Date of Birth
-                </label>
-                <input 
-                  type="date" 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md" 
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Nationality
-                </label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-md">
-                  <option value="">Select nationality</option>
-                  <option value="Sri Lanka">Sri Lanka</option>
-                  <option value="India">India</option>
-                  <option value="United States">United States</option>
-                  <option value="United Kingdom">United Kingdom</option>
-                </select>
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name
+              </label>
+              <Input
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Enter your full name"
+                required
+              />
             </div>
           </CardContent>
         </Card>
@@ -76,35 +98,14 @@ const ProfileForm: React.FC = () => {
           <CardContent className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Street
+                Address
               </label>
-              <input 
-                type="text" 
-                className="w-full px-3 py-2 border border-gray-300 rounded-md" 
-                placeholder="Enter street address"
+              <Input
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Enter your address"
+                required
               />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  City
-                </label>
-                <input 
-                  type="text" 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md" 
-                  placeholder="Enter city"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Pin Code
-                </label>
-                <input 
-                  type="text" 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md" 
-                  placeholder="Enter pin code"
-                />
-              </div>
             </div>
           </CardContent>
         </Card>
@@ -122,64 +123,46 @@ const ProfileForm: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email Address
               </label>
-              <input 
-                type="email" 
-                className="w-full px-3 py-2 border border-gray-300 rounded-md" 
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter email address"
+                required
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Telephone Number
+                Phone Number
               </label>
-              <input 
-                type="tel" 
-                className="w-full px-3 py-2 border border-gray-300 rounded-md" 
-                placeholder="Enter telephone number"
+              <Input
+                type="tel"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="Enter phone number"
+                required
               />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Bank Details Card */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CreditCard className="h-5 w-5" />
-              Bank Details
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Bank Name
-                </label>
-                <input 
-                  type="text" 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md" 
-                  placeholder="Enter bank name"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Account Number
-                </label>
-                <input 
-                  type="text" 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md" 
-                  placeholder="Enter account number"
-                />
-              </div>
             </div>
           </CardContent>
         </Card>
       </div>
       
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-4">
         <Button type="submit" size="lg" className="min-w-[200px]">
-          Submit
+          {isEditing ? 'Update' : 'Submit'}
         </Button>
+        
+        {isEditing && onCancelEdit && (
+          <Button 
+            type="button" 
+            variant="outline" 
+            size="lg" 
+            className="min-w-[200px]"
+            onClick={onCancelEdit}
+          >
+            Cancel
+          </Button>
+        )}
       </div>
     </form>
   );
