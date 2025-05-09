@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -20,7 +19,7 @@ const Profile: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('profiles', JSON.stringify(profiles));
   }, [profiles]);
-
+  
   const handleProfileSubmit = (data: Omit<ProfileData, 'id' | 'dateAdded'>) => {
     const currentDate = new Date().toLocaleDateString();
     
