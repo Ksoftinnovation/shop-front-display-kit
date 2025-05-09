@@ -361,14 +361,14 @@ const HistoryDataTable: React.FC<HistoryDataTableProps> = ({ timeFilter }) => {
         </Table>
       </div>
 
-      {/* Pagination */}
+      {/* Pagination - Fixed the disabled props issue */}
       {totalPages > 1 && (
         <Pagination className="mt-4">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious 
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
+                className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
               />
             </PaginationItem>
             
@@ -398,7 +398,7 @@ const HistoryDataTable: React.FC<HistoryDataTableProps> = ({ timeFilter }) => {
             <PaginationItem>
               <PaginationNext 
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
+                className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
               />
             </PaginationItem>
           </PaginationContent>
