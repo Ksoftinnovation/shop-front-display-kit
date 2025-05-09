@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { MapPin, FileText, FilePdf, Filter } from 'lucide-react';
+import { MapPin, FileText, File, Filter } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import {
@@ -289,7 +288,7 @@ const Location: React.FC = () => {
                   onClick={() => exportToPDF(filteredShifts)}
                   className="flex items-center gap-2"
                 >
-                  <FilePdf className="h-4 w-4" />
+                  <File className="h-4 w-4" />
                   Export PDF
                 </Button>
               </div>
