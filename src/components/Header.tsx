@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, MapPin } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -58,6 +58,7 @@ const Header = () => {
                 <Link to="/" className="header-link">Home</Link>
                 <Link to="/profile" className="header-link">Profile</Link>
                 <Link to="/history" className="header-link">History</Link>
+                <Link to="/location" className="header-link">Location</Link>
                 <Link to="/about" className="header-link">About</Link>
                 <Link to="/contact" className="header-link">Contact</Link>
               </div>
@@ -79,6 +80,11 @@ const Header = () => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   <Link to="/history" className="header-link">History</Link>
+                </NavigationMenuTrigger>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>
+                  <Link to="/location" className="header-link">Location</Link>
                 </NavigationMenuTrigger>
               </NavigationMenuItem>
               <NavigationMenuItem>
