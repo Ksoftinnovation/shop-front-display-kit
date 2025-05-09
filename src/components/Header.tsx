@@ -57,6 +57,7 @@ const Header = () => {
               <div className="flex flex-col space-y-2">
                 <Link to="/" className="header-link">Home</Link>
                 <Link to="/profile" className="header-link">Profile</Link>
+                <Link to="/history" className="header-link">History</Link>
                 <Link to="/about" className="header-link">About</Link>
                 <Link to="/contact" className="header-link">Contact</Link>
               </div>
@@ -73,6 +74,11 @@ const Header = () => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   <Link to="/profile" className="header-link">Profile</Link>
+                </NavigationMenuTrigger>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>
+                  <Link to="/history" className="header-link">History</Link>
                 </NavigationMenuTrigger>
               </NavigationMenuItem>
               <NavigationMenuItem>
